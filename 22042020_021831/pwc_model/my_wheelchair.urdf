@@ -1,0 +1,1358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<robot name="my_wheelchair">
+
+<!--
+__________________________________________________________________________________________________________
+1. Brief Description
+__________________________________________________________________________________________________________
+
+The following is a chair made for the powered wheelchair base, created above. This is my own model
+and design. Although it is basic, the model was planned. using weights and sizes of the Jazzy Select 6
+(Pride Mobility Products Corp, 2008) powered wheelchair.
+
+
+__________________________________________________________________________________________________________
+2. Gazebo Materials
+__________________________________________________________________________________________________________
+
+Source materials from Gazebo directories (GabrielTorre, 2019), which come with a full ROS-Kinetic install. These materials are not just limited to colour. It is also possible to apply brick, wood and many others.
+
+-->
+
+	<!--
+		START: Diff-Drive Bot Core
+
+		a. base_link (red)
+		b. base_laser (black)
+		c. drive wheels (black)
+	-->
+	<gazebo reference="base_link">
+		<material>Gazebo/Red</material>
+	</gazebo>
+
+	<gazebo reference="lidar_link">
+		<material>Gazebo/Black</material>
+	</gazebo>
+
+	<gazebo reference="left_wheel">
+		<material>Gazebo/Black</material>
+	</gazebo>
+
+	<gazebo reference="right_wheel">
+		<material>Gazebo/Black</material>
+	</gazebo>
+
+	<gazebo reference="pwc_base">
+		<material>Gazebo/Red</material>
+	</gazebo>
+	<!-- END: Diff-Drive Bot Core -->
+
+	<!--
+		START: brackets + caster wheels
+
+		houses features of the pwc:
+		(red to blend with base_link)
+
+		d. brackets + caster wheels
+		(black + red)
+	-->
+	<gazebo reference="front_left_bracket">
+		<material>Gazebo/Red</material>
+	</gazebo>
+
+	<gazebo reference="front_left_wheel">
+		<material>Gazebo/Black</material>
+	</gazebo>
+
+	<gazebo reference="front_right_bracket">
+		<material>Gazebo/Red</material>
+	</gazebo>
+
+	<gazebo reference="front_right_wheel">
+		<material>Gazebo/Black</material>
+	</gazebo>
+
+	<gazebo reference="back_left_bracket">
+		<material>Gazebo/Red</material>
+	</gazebo>
+
+	<gazebo reference="back_left_wheel">
+		<material>Gazebo/Black</material>
+	</gazebo>
+
+	<gazebo reference="back_right_bracket">
+		<material>Gazebo/Red</material>
+	</gazebo>
+
+	<gazebo reference="back_right_wheel">
+		<material>Gazebo/Black</material>
+	</gazebo>
+	<!-- END: brackets + caster wheels -->
+
+	<!--
+		START: seat components
+
+		e. seat components (flat black)
+	-->
+	<gazebo reference="chair_seat">
+		<material>Gazebo/FlatBlack</material>
+	</gazebo>
+
+	<gazebo reference="chair_back">
+		<material>Gazebo/FlatBlack</material>
+	</gazebo>
+
+	<gazebo reference="chair_spine">
+		<material>Gazebo/FlatBlack</material>
+	</gazebo>
+
+	<gazebo reference="arm_left">
+		<material>Gazebo/FlatBlack</material>
+	</gazebo>
+
+	<gazebo reference="arm_right">
+		<material>Gazebo/FlatBlack</material>
+	</gazebo>
+
+	<gazebo reference="foot_rest">
+		<material>Gazebo/FlatBlack</material>
+	</gazebo>
+	<!-- END: seat components -->
+
+<!--
+__________________________________________________________________________________________________________
+3.The base_link
+__________________________________________________________________________________________________________
+
+The construction of the URDF wheelchair began with an indepth tutorial to create a diffrential drive
+tortoisebot, the first Turtlebot (Quigley et al., 2015, 275-289).
+
+Over time, this evovled into the my_wheelchair URDF.
+
+-->
+
+	<!-- START: base_link -->
+	<link name="base_link">
+
+		<!--
+			The XYZ coordinates set the base_link size in 3D space.
+			The box dimensions:
+				50cm in length
+				40cm in width
+				20cm in depth
+		-->
+		<visual>
+			<geometry>
+			<box size="0.5 0.4 0.2"/>
+			</geometry>
+		</visual>
+
+		<!-- These collision traits will allow the model to interact with other items in Gazebo -->
+		<collision>
+			<geometry>
+			<box size="0.5 0.4 0.2"/>
+			</geometry>
+		</collision>
+	<!-- The link is closed -->
+	</link>
+	<!-- END: base_link -->
+
+<!--
+__________________________________________________________________________________________________________
+4. The base_laser
+__________________________________________________________________________________________________________
+
+TO ESTABLISH (May become 2X Hokuyo)
+
+-->
+
+	<link name="lidar_link">
+		<visual>
+			<geometry>
+			<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.2" />
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="lidar_link_joint" type="fixed">
+		<axis xyz="0 1 0" />
+		<!--<origin xyz="0.0 0.0 0.2" rpy="0 -3.1416 0"/>-->
+		<origin xyz="0.0 0.0 0.2" rpy="0 0 0"/>
+		<parent link="base_link"/>
+		<child link="lidar_link"/>
+	</joint>
+
+	<gazebo reference="lidar_link">
+		<sensor type="gpu_ray" name="head_rplidar_sensor">
+
+			<pose>0 0 0 0 0 0</pose>
+			<visualize>false</visualize>
+			<update_rate>40</update_rate>
+
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>720</samples>
+						<resolution>1</resolution>
+						<min_angle>-3.0107</min_angle>
+						<max_angle>3.0107</max_angle>
+					</horizontal>
+				</scan>
+
+				<range>
+					<min>0.2</min>
+					<max>30.0</max>
+					<resolution>0.01</resolution>
+				</range>
+
+				<noise>
+					<type>gaussian</type>
+					<!--
+						Noise parameters based on published spec for Hokuyo laser
+						achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+						stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+						reading.
+					-->
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+
+			</ray>
+
+			<plugin name="gazebo_ros_head_rplidar_controller" filename="libgazebo_ros_gpu_laser.so">
+				<frameName>lidar_link</frameName>
+				<topicName>scan</topicName>
+			</plugin>
+
+		</sensor>
+	</gazebo>
+
+<!-- REF RRbE page -->
+
+<!--
+__________________________________________________________________________________________________________
+5. Differential Drive
+__________________________________________________________________________________________________________
+
+	The control system of the wheelchair is
+
+	______________________________________________________________________________________________
+	5a. Powered Left Wheel
+	______________________________________________________________________________________________
+
+	-->
+
+
+	<link name="left_wheel">
+		<visual>
+			<geometry>
+			<cylinder length="0.075" radius="0.125"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<cylinder length="0.075" radius="0.125"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="2.0"/>
+			<!--
+				______________________________________________________________________________________
+
+			cylinder (where: mass= m, radius= r, length= l)
+
+			ixx= m* (3* r*r + l*l) / 12, iyy= m* (3* r*r + l*l) / 12, izz= m* r*r / 2
+
+			ixy, ixz, iyz = 0.0
+				______________________________________________________________________________________
+
+			ixx= 2.0* (3* 0.125*0.125 + 0.075*0.075) / 12
+			ixx= 2.0 * 0.02125 / 12
+			ixx= 0.0035 (0.003541667)
+
+			iyy= 2.0* (3* 0.125*0.125 + 0.075*0.075) / 12
+			iyy= 2.0 * 0.02125 / 12
+			iyy= 0.0035 (0.003541667)
+
+			izz= 2.0* 0.125*0.125 / 2
+			izz= 0.0156 (0.015625)
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+				______________________________________________________________________________________
+			-->
+			<inertia ixx="0.0035" iyy="0.0035" izz="0.0156" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="left_wheel_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="base_link"/>
+		<child link="left_wheel"/>
+		<origin rpy="-1.5708 0 0" xyz="0.0 0.25 -.065"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	5b. Powered Right Wheel
+	______________________________________________________________________________________________
+
+
+		The following is a chair made for the powered wheelchair base, created above.
+		This is my own model and design. Although it is basic, the model was planned
+		using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+	-->
+
+	<link name="right_wheel">
+		<visual>
+			<geometry>
+			<cylinder length="0.075" radius="0.125"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<cylinder length="0.075" radius="0.125"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="2.0"/>
+			<inertia ixx="0.0035" iyy="0.0035" izz="0.0156" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="right_wheel_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="base_link"/>
+		<child link="right_wheel"/>
+		<origin rpy="-1.5708 0 0" xyz="0.0 -0.25 -.065"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	5c. The Diff-Drive Gazebo Plugin
+	______________________________________________________________________________________________
+
+
+		The following is a chair made for the powered wheelchair base, created above.
+		This is my own model and design. Although it is basic, the model was planned
+		using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+	-->
+
+	<gazebo>
+
+		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+			<!--<robotNamespace>my_wheelchair</robotNamespace>-->
+
+			<alwaysOn>true</alwaysOn>
+			<updateRate>100</updateRate>
+			<rosDebugLevel>na</rosDebugLevel>
+			<legacyMode>false</legacyMode>
+
+			<!-- Notice how the right wheel joint is called from the <leftJoint object -->
+			<leftJoint>left_wheel_joint</leftJoint>
+			<!-- The same method is used for the <righJoint> object-->
+			<rightJoint>right_wheel_joint</rightJoint>
+			<wheelSeparation>0.4150</wheelSeparation>
+			<wheelDiameter>0.25</wheelDiameter>
+
+			<wheelTorque>100</wheelTorque>
+			<wheelAcceleration>2.0</wheelAcceleration> <!-- not sure about this one... -->
+
+			<!-- The base_link is treated as the common link or 'BaseFrame' of the robot-->
+			<!-- This is a suitable choice as the motor a PWC is also found in a similar location -->
+			<odometrySource>world</odometrySource>
+			<odometryFrame>odom</odometryFrame>
+			<robotBaseFrame>base_link</robotBaseFrame>
+			<!--<frameId>base_link</frameId>-->
+			<odometryTopic>odom</odometryTopic>
+			<commandTopic>cmd_vel</commandTopic>
+
+			<publishTf>true</publishTf>
+			<publishOdomTF>true</publishOdomTF>
+			<publishWheelTF>true</publishWheelTF>
+			<publishWheelJointState>true</publishWheelJointState>
+
+		</plugin>
+
+	</gazebo>
+
+
+<!--
+__________________________________________________________________________________________________________
+6. The Powered Wheelchair Base
+__________________________________________________________________________________________________________
+
+	The following is a chair made for the powered wheelchair base, created above.
+	This is my own model and design. Although it is basic, the model was planned
+	using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+-->
+
+	<!-- The (charactersitics of the model) are set within the link (namespace/keyword)-->
+	<link name="pwc_base">
+		<!-- The model for the base_link is visualised, using the X, Y and Z axis -->
+		<visual>
+			<geometry>
+			<box size="0.45 0.35 0.2"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="49.0"/>
+			<!--
+				______________________________________________________________________________________
+
+			box inertia (where: mass= m, length=l, width= w ,depth= d)
+
+			ixx= m / 12* (d*d + l*l), iyy= m / 12* (w*w + l*l), izz= m / 12* (w*w + d*d)
+
+			ixy, ixz, iyz = 0.0
+				______________________________________________________________________________________
+
+			ixx= 49.0 / 12* (0.2*0.2 + 0.5*0.5)
+			ixx= 4.083 * 0.01
+			ixx= 0.04083
+
+			iyy= 49.0 / 12* (0.4*0.4 + 0.5*0.5)
+			iyy= 4.083 * 0.41
+			iyy= 1.6740
+
+			izz= 49.0 / 12* (0.4*0.4 + 0.2*0.2)
+			izz= 4.083 * 0.2
+			izz= 0.8166
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+				______________________________________________________________________________________
+			-->
+			<inertia ixx="0.0408" iyy="1.6740" izz="0.8166" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+
+
+	<joint name="pwc_base_joint" type="fixed">
+		<axis xyz="0 1 0" />
+		<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+		<parent link="base_link"/>
+		<child link="pwc_base"/>
+	</joint>
+
+
+<!--
+__________________________________________________________________________________________________
+7. The Passive Caster Wheels
+__________________________________________________________________________________________________
+
+The caster wheels follow the exact same structure. They are merely duplicates of the one caster
+wheel found in (Programming Robots with ROS). The height, width and wheel size have been scaled to
+different sizes, while the position of the passive (caster wheels) is slightly lower.
+
+	______________________________________________________________________________________________
+	7a. The Front Left Caster Wheel
+	______________________________________________________________________________________________
+
+	As with the base_link, the same methods are used to create the following:
+	visual, collision and interial
+
+	-->
+	<link name="front_left_bracket">
+		<visual>
+			<geometry>
+			<box size="0.1 0.1 0.15"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.1 0.1 0.15"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.1"/>
+			<!--
+			______________________________________________________________________________________
+
+			box inertia (where: mass= m, length=l, width= w ,depth= d)
+
+			ixx= m / 12* (d*d + l*l), iyy= m / 12* (w*w + l*l), izz= m / 12* (w*w + d*d)
+
+			ixy, ixz, iyz = 0.0
+			______________________________________________________________________________________
+
+			ixx= 0.1 / 12* (0.15*0.15 + 0.1*0.1)
+			ixx= 0.008 * 0.0325
+			ixx= 0.0003 (0.00026)
+
+			iyy= 0.1 / 12* (0.1*0.1 + 0.1*0.1)
+			iyy= 0.008 * 0.02
+			iyy= 0.0002 (0.00016)
+
+			izz= 0.1 / 12* (0.1*0.1 + 0.15*0.15)
+			izz= 0.008 * 0.0325
+			izz= 0.0003 (0.00026)
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="0.0003" iyy="0.0002" izz="0.0003" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<!-- The joint which connects the bracket to the pwc base -->
+	<joint name="front_left_bracket_joint" type="continuous">
+		<!-- This refers to the direction the 'top' of the object will be facing -->
+		<axis xyz="0 0 1"/>
+		<!-- This allows for the caster to connect to the 'parent link' (pwc_base). -->
+		<parent link="pwc_base"/>
+		<child link="front_left_bracket"/>
+		<!--
+			When this connection is established between the parent and child object, the
+			origin of the child will be in relation to the parent. XYZ refers to the
+			positioning of the object in 3 dimensions. RPY refers to the roll, pitch and
+			yaw of the model (in radians).
+		-->
+		<origin rpy="-0 0 0" xyz="0.3 0.2 -0.05"/>
+	</joint>
+
+	<!-- The bracket has been fixed and created and the wheel is next -->
+	<link name="front_left_wheel">
+		<!--
+			The model for the wheel is created in the same way as the other models. However, the
+			wheel must be created so it is independant of the caster. The wheel must be able to move
+			freely and act as a wheelshoudl, with no restriction.
+		-->
+		<visual>
+			<geometry>
+			<!--
+				This time, a cyclinder is being used, rather than a box.
+				The cylinder has different properties, including length and radius.
+				The length defines the 'thickness' of the wheel in metres (5cm)
+				The wheel is (X) radians and defines the 'width' of the wheel.
+			-->
+			<cylinder length="0.05" radius="0.065"/>
+			</geometry>
+		</visual>
+
+
+		<!--
+			As with the bracket, the wheel must also have a collision perimeter. Although this
+			wheel does not "drive", it will respond to the environment realistically.
+		-->
+		<collision>
+			<geometry>
+			<cylinder length="0.05" radius="0.065"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<!-- The caster wheel weighs 100g -->
+			<mass value="0.1"/>
+			<!--
+			______________________________________________________________________________________
+
+			cylinder (where: mass= m, radius= r, length= l)
+
+			ixx= m* (3* r*r + l*l) / 12, iyy= m* (3* r*r + l*l) / 12, izz= m* r*r / 2
+
+			ixy, ixz, iyz = 0.0
+			______________________________________________________________________________________
+
+			ixx= 0.1* (3* 0.065*0.065 + 0.05*0.05) / 12
+			ixx= 0.1* 0.020175 / 12
+			ixx= 0.0002 (0.000168125)
+
+			iyy= 0.1* (3* 0.065*0.065 + 0.05*0.05) / 12
+			iyy= 0.1* 0.020175 / 12
+			iyy= 0.0002 (0.000168125)
+
+			izz= 0.1* 0.065*0.065 / 2
+			izz= 0.0002 (0.00021125)
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="0.0002" iyy="0.0002" izz="0.0002" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="front_left_wheel_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="front_left_bracket"/>
+		<child link="front_left_wheel"/>
+		<origin rpy="-1.5708 0 0" xyz="0.05 0 -0.075"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	7b. The Caster Wheel to the Front Right
+	______________________________________________________________________________________________
+
+	The other caster joints and wheels are the same, but at different points on the base_link
+	-->
+
+	<link name="front_right_bracket">
+		<visual>
+			<geometry>
+			<box size="0.1 0.1 0.15"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.1 0.1 0.15"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.0003" iyy="0.0002" izz="0.0003" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="front_right_bracket_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="pwc_base"/>
+		<child link="front_right_bracket"/>
+		<origin rpy="0 0 0" xyz="0.3 -0.2 -0.05"/>
+	</joint>
+
+	<!-- create the caster wheel -->
+
+	<link name="front_right_wheel">
+		<visual>
+			<geometry>
+				<cylinder length="0.05" radius="0.065"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+				<cylinder length="0.05" radius="0.065"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.0002" iyy="0.0002" izz="0.0002" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="front_right_wheel_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="front_right_bracket"/>
+		<child link="front_right_wheel"/>
+		<origin rpy="-1.5708 0 0" xyz="0.05 0 -0.075"/>
+	</joint>
+
+
+	<!--
+	______________________________________________________________________________________________
+	7c. The Caster Wheel to the Rear Left
+	______________________________________________________________________________________________
+
+	-->
+
+	<link name="back_left_bracket">
+		<visual>
+			<geometry>
+			<box size="0.1 0.1 0.15"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.1 0.1 0.15"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.0003" iyy="0.0002" izz="0.0003" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="back_left_bracket_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="pwc_base"/>
+		<child link="back_left_bracket"/>
+		<origin rpy="0 0 0" xyz="-0.3 0.2 -0.05"/>
+	</joint>
+
+	<!-- create the caster wheel -->
+
+	<link name="back_left_wheel">
+		<visual>
+			<geometry>
+			<cylinder length="0.05" radius="0.065"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<cylinder length="0.05" radius="0.065"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.0002" iyy="0.0002" izz="0.0002" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="back_left_wheel_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="back_left_bracket"/>
+		<child link="back_left_wheel"/>
+		<origin rpy="-1.5708 0 0" xyz="0.05 0 -0.075"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	7d. The Caster Wheel at the Rear Right
+	______________________________________________________________________________________________
+
+	-->
+
+	<link name="back_right_bracket">
+		<visual>
+			<geometry>
+			<box size="0.1 0.1 0.15"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.1 0.1 0.15"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.0003" iyy="0.0002" izz="0.0003" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="back_right_bracket_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="pwc_base"/>
+		<child link="back_right_bracket"/>
+		<origin rpy="0 0 0" xyz="-0.3 -0.2 -0.05"/>
+	</joint>
+
+	<!-- create the caster wheel -->
+
+	<link name="back_right_wheel">
+		<visual>
+			<geometry>
+			<cylinder length="0.05" radius="0.065"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<cylinder length="0.05" radius="0.065"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.0002" iyy="0.0002" izz="0.0002" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="back_right_wheel_joint" type="continuous">
+		<axis xyz="0 0 1"/>
+		<parent link="back_right_bracket"/>
+		<child link="back_right_wheel"/>
+		<origin rpy="-1.5708 0 0" xyz="0.05 0 -0.075"/>
+	</joint>
+
+<!--
+__________________________________________________________________________________________________
+8. The PWC Seat
+__________________________________________________________________________________________________
+
+-->
+
+	<link name="chair_pillar">
+		<visual>
+			<geometry>
+			<cylinder length="0.2" radius="0.025"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<cylinder length="0.2" radius="0.025"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.5"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="chair_pillar_joint" type="fixed">
+		<axis xyz="0 1 0"/>
+		<parent link="pwc_base"/>
+		<child link="chair_pillar"/>
+		<origin rpy="0 0 0" xyz="0.0 0.0  0.175"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	8b. The Primary Cushioned Seat
+	______________________________________________________________________________________________
+
+	The following is a chair made for the powered wheelchair base, created above.
+	This is my own model and design. Although it is basic, the model was planned
+	using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+	-->
+
+	<link name="chair_seat">
+		<visual>
+			<geometry>
+			<box size="0.6 0.45 0.1"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.6 0.45 0.1"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.5"/>
+			<!--
+			______________________________________________________________________________________
+
+			half torso = 12.45kg (Other hald distributed to back of chair)
+			addition height for person sitting in PWC = 88cm
+
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="chair_seat_joint" type="fixed">
+		<axis xyz="1 0 0"/>
+		<parent link="chair_pillar"/>
+		<child link="chair_seat"/>
+		<origin rpy="0 0 0" xyz="0.0 0.0 0.1"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	8c. The Connector Between the Back Support and Primary Seat
+	______________________________________________________________________________________________
+
+	The following is a chair made for the powered wheelchair base, created above.
+	This is my own model and design. Although it is basic, the model was planned
+	using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+	-->
+
+	<link name="chair_spine">
+		<visual>
+			<geometry>
+			<box size="0.035 0.1 0.2"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.035 0.1 0.2"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.2"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="chair_spine_joint" type="fixed">
+		<axis xyz="1 0 0"/>
+		<parent link="chair_seat"/>
+		<child link="chair_spine"/>
+		<origin rpy="0 0 0" xyz="-0.3 0.0 0.1"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	8d. Back Support
+	______________________________________________________________________________________________
+
+	The following is a chair made for the powered wheelchair base, created above.
+	This is my own model and design. Although it is basic, the model was planned
+	using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+	-->
+
+	<link name="chair_back">
+		<visual>
+			<geometry>
+			<box size="0.1 0.45 0.5"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.1 0.45 0.5"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.5"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="chair_back_joint" type="fixed">
+		<axis xyz="1 0 0"/>
+		<parent link="chair_spine"/>
+		<child link="chair_back"/>
+		<origin rpy="0 0 0" xyz="0.0 0.0 0.225"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	8e. Left Side Arm Support and Bracket
+	______________________________________________________________________________________________
+
+	The following is a chair made for the powered wheelchair base, created above.
+	This is my own model and design. Although it is basic, the model was planned
+	using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+	-->
+
+	<link name="arm_left">
+		<visual>
+			<geometry>
+			<box size="0.45 0.075 0.03"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.45 0.075 0.03"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.2"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="arm_left_joint" type="fixed">
+		<axis xyz="1 0 0"/>
+		<parent link="arm_brace_left"/>
+		<child link="arm_left"/>
+		<origin rpy="0 0 0" xyz="0.2 0.025 0.125"/>
+	</joint>
+
+	<!-- create the support for the arm rest -->
+
+	<link name="arm_brace_left">
+		<visual>
+			<geometry>
+			<box size="0.05 0.03 0.25"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.05 0.03 0.25"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.2"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="arm_brace_left_joint" type="fixed">
+		<axis xyz="1 0 0"/>
+		<parent link="chair_seat"/>
+		<child link="arm_brace_left"/>
+		<origin rpy="0 0 0" xyz="-0.2 0.225 0.1"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	8f. Right Side Arm Support and Bracket
+	______________________________________________________________________________________________
+
+	The following is a chair made for the powered wheelchair base, created above.
+	This is my own model and design. Although it is basic, the model was planned
+	using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+	-->
+
+	<link name="arm_right">
+		<visual>
+			<geometry>
+			<box size="0.45 0.075 0.03"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.45 0.075 0.03"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.2"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="arm_right_joint" type="fixed">
+		<axis xyz="1 0 0"/>
+		<parent link="arm_brace_right"/>
+		<child link="arm_right"/>
+		<origin rpy="0 0 0" xyz="0.2 -0.025 0.125"/>
+	</joint>
+
+	<!-- create the support for the arm rest -->
+
+	<link name="arm_brace_right">
+		<visual>
+			<geometry>
+			<box size="0.05 0.03 0.25"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.05 0.03 0.25"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.2"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="arm_brace_right_joint" type="fixed">
+		<axis xyz="1 0 0"/>
+		<parent link="chair_seat"/>
+		<child link="arm_brace_right"/>
+		<origin rpy="0 0 0" xyz="-0.2 -0.225 0.1"/>
+	</joint>
+
+	<!--
+	______________________________________________________________________________________________
+	8g. The PWC Foot-Rest
+	______________________________________________________________________________________________
+
+	The following is a chair made for the powered wheelchair base, created above.
+	This is my own model and design. Although it is basic, the model was planned
+	using weights and sizes of the Jazzy Select 6 powered wheelchair.
+
+	-->
+	<link name="foot_rest">
+		<visual>
+			<geometry>
+			<box size="0.2 0.25 0.01"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.2 0.25 0.01"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.2"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+	<joint name="foot_rest_joint" type="fixed">
+		<axis xyz="1 0 0"/>
+		<parent link="pwc_base"/>
+		<child link="foot_rest"/>
+		<origin rpy="0 0 0" xyz="0.35 0.0 -0.1"/>
+	</joint>
+
+<!--
+__________________________________________________________________________________________________
+9. The Camera / User Perspective
+__________________________________________________________________________________________________
+
+-->
+
+	<link name="camera_link">
+		<visual>
+			<geometry>
+			<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<geometry>
+			<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="0.1"/>
+			<!--
+			______________________________________________________________________________________
+
+			default inertia:
+
+			ixx= 1.0, ixy= 0.0, ixz= 0.0, iyy= 1.0, iyz= 0.0, izz= 1.0
+
+			(Newman, 2018, 109-112)
+			(Palla, 2018)
+			______________________________________________________________________________________
+
+			-->
+			<inertia ixx="1.0" iyy="1.0" izz="1.0" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+	</link>
+
+		<gazebo reference="camera_link">
+			<pose>0.1 0 0 0 0 0</pose>
+			<sensor type= "camera" name="p_o_v">
+
+				<update_rate>30</update_rate>
+
+				<camera name="p_o_v">
+					<horizontal_fov>1.0</horizontal_fov>
+
+					<image>
+						<width>640</width>
+						<height>480</height>
+			 			<format>R8G8B8</format>
+					</image>
+
+					<clip>
+						<near>0.1</near>
+						<far>100.0</far>
+					</clip>
+
+					<noise>
+						<type>gaussian</type>
+						<!-- Noise parameters based on published spec for Hokuyo laser
+							 achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+							 stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+							 reading. -->
+						<mean>0.0</mean>
+						<stddev>0.007</stddev>
+					</noise>
+				</camera>
+
+				<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+					<alwaysOn>true</alwaysOn>
+					<updateRate>10</updateRate>
+					<cameraName>p_o_v</cameraName>
+
+					<frameName>camera_link</frameName>
+					<imageTopicName>image_raw</imageTopicName>
+
+					<distortionK1>0.0</distortionK1>
+					<distortionK2>0.0</distortionK2>
+					<distortionK3>0.0</distortionK3>
+					<distortionK4>0.0</distortionK4>
+					<distortionK5>0.0</distortionK5>
+				</plugin>
+			</sensor>
+		</gazebo>
+
+	<joint name="camera_link_joint" type="fixed">
+		<axis xyz="0 0 1"/>
+		<parent link="base_link"/>
+		<child link="camera_link"/>
+		<origin rpy="0 0 0" xyz="-0.2 0.0 0.9"/>
+	</joint>
+
+</robot>
+
+<!--(Quigley et al., 2015, 275-289), (Newman, 2018, 133-148)-->
+
+<!--
+
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+Quigley, M., Gerkey, B. and Smart, W.D. (2015) Programming Robots with ROS.
+Sebastopol, USA: O'Reilly Media, Inc.
+
+Newman, W,S. (2017) A Systematic Approach to Learning Robot Programming with ROS. Boca Raton, USA.
+Taylor and Francis Group.
+
+Pride Mobility Products Corp (2008) Jazzy Select Series. Canada: Prime Mobility. Available from
+https://www.pridemobility.com/pdf/owners_manuals/us_jazzy/us_select_om.pdf [accessed 9 February 2020].
+
+GabrielTorre (2019) List of Materials. ROS.org: Open Robotics. Available from
+http://wiki.ros.org/simulator_gazebo/Tutorials/ListOfMaterials
+[accessed 9 February 2020].
+
+Playfish (2019) urdf. ROS.org: Open Robotics. Available from http://wiki.ros.org/urdf
+[accessed 9 February 2020].
+
+WilliamWoodall (2015) Setting up your robot using tf. ROS.org: Open Robotics. Available from
+http://wiki.ros.org/navigation/Tutorials/RobotSetup/TF
+[accessed 9 February 2020].
+
+Elwin, M. (2014) Tutorial: Using a URDF in Gazebo. Gazebo. Available from
+http://gazebosim.org/tutorials/?tut=ros_urdf [accessed 9 February 2020].
+
+Ait, I. (2014) Tutorial: Using Gazebo plugins with ROS. Gazebo. Available from
+http://gazebosim.org/tutorials?tut=ros_gzplugins [accessed 9 February 2020].
+
+Carrion, O. (2016) DiffDrive odometry source is missing. ROS.org: Open Robotics. Available from
+https://answers.ros.org/question/236122/diffdrive-odometry-source-is-missing/
+[accessed 9 February 2020].
+
+MartijnBuijs (2018) Adding Physical and Collision Properties to a URDF Model. ROS.org: Open Robotics. Available from
+http://wiki.ros.org/urdf/Tutorials/Adding%20Physical%20and%20Collision%20Properties%20to%20a%20URDF%20Model
+[accessed 9 February 2020].
+
+Palla, K. (2018) ROS (Robotic Operating System) Learning Series. bitbucket. Available from
+https://bitbucket.org/kiranpalla/learn-ros/src/master/using-gazebo-diff-drive-plugin/src/mybot/urdf/mybot.xacro
+[accessed 9 February 2020].
+
+-->

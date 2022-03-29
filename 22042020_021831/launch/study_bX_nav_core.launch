@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<!--
+__________________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________________
+
+[A: move_base (nav_core) node]
+
+
+[B: global_costmap]
+
+
+[C: global_costmap_params]
+
+
+[D: local_costmap]
+
+
+[E: local_costmap_params]
+
+
+[F: costmap_common_params]
+
+
+[G: dwa_local_planner]
+
+
+[H: dwA_local_planner_params]
+
+
+[I: global_planner]
+
+
+[J: global_planner_params]
+
+
+-->
+
+<launch>
+
+	<!--[A: move_base node]-->
+	<node pkg='move_base' type='move_base' respawn='false' name='move_base' output='screen' clear_params='true'>
+	<!--(ChristophRoesmann, 2020), (NicolasVaras, 2018)-->
+
+		<!--[B: global_costmap]-->
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/costmap_common_params.yaml' command='load' ns='global_costmap'/>
+		<!--[C: global_costmap_params]-->
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/global_costmap_params.yaml' command='load'/>
+		<!--[D: local_costmap]-->
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/costmap_common_params.yaml' command='load' ns='local_costmap'/>
+		<!--[E: local_costmap_params]-->
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/local_costmap_params.yaml' command='load'/>
+		<!--[F: costmap_common_params]-->
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/costmap_common_params.yaml' command='load'/>
+		<!--(NickLamprianidis, 2018)-->
+
+		<!--[G: dwa_local_planner]-->
+		<param name='base_local_planner' value='dwa_local_planner/DWAPlannerROS' />
+		<!--[H: base_local_planner_params]-->
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/dwa_planner_ros.yaml' command='load'/>
+		<!--(AchmadFathoni, 2018)-->
+
+		<!--[I: global_planner]-->
+		<!--<param name='base_global_planner' value='global_planner/GlobalPlanner' />-->
+		<!--[J: base_global_planner_params]-->
+		<!--<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/global_planner_params.yaml' command='load' />-->
+		<!--(EwingKang, 2019)-->
+
+	</node>
+
+</launch>
+
+<!--
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+ChristophRoesmann (2020) nav_core. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/nav_core [accessed 15 April 2020].
+
+NicolasVaras (2018) move_base. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/move_base [accessed 15 April 2020].
+
+NickLamprianidis (2018) costmap_2d. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/costmap_2d [accessed 15 April 2020].
+
+AchmadFathoni (2018) dwa_local_planner. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/dwa_local_planner [accessed 15 April 2020].
+
+EwingKang (2019) global_planner. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/global_planner [accessed 15 April 2020].
+
+-->

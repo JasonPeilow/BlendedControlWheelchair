@@ -1,0 +1,27 @@
+__________________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________________
+
+References relating to the world mapping and then localisation or navigation of the known map. A powerful
+visualization tool, RViz, is used to identify how a variety of sensors can detect objects within the
+gzabo simulation. It is also possible to import a map and calculate the cost of a chosen path or to take
+note of the robot odometry in an active environment to see how it alters throughout travel.
+
+__________________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________________
+
+ROS.org (2015) rviz/ UserGuide. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/rviz/UserGuide [accessed 18 April 2020].
+
+ROS.org (2016) SLAM Map Building with Turtlebot. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/turtlebot_navigation/Tutorials/indigo/Build%20a%20map%20with%20SLAM
+[accessed 18 April 2020].
+
+ROS.org (2015) Explore the Gazebo world. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/turtlebot_gazebo/Tutorials/indigo/Explore%20the%20Gazebo%20world
+[accessed 18 April 2020].
+
+ROS.org (2017) Autonomous Navigation of a Known Map with TurtleBot. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/turtlebot_navigation/Tutorials/indigo/Autonomously%20navigate%20in%20a%20known%20map
+[accessed 18 April 2020].

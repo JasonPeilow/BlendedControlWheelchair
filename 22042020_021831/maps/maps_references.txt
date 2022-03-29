@@ -1,0 +1,26 @@
+__________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________
+
+This txt file is to reference any supporting material regarding maps in ROS or the files in the
+'maps' folder (catkin_ws/src/cmp3060m_1920_project/maps). The user_study.pgm or 'portable graymap'
+(Kautz, 2014) is the grayscale image displaying the map, which has been created
+using slam gmapping. The additional user_study.yaml file contains the resolution of the image and
+how much is occupied by a map (white), obstacle (black) or unknown space (gray). It is possible
+to manipulate these images in GIMP (Gimp.org, 2020) and, should the resolution remain unchanged,
+the pgm will still function as expected. The launching of the yaml file, using the map_server,
+will cause the pgm to be located by the map_server (Combinacijus, 2020) and opened for use in RViz.
+
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+Combinacijus (2020) map_server. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/map_server [accessed 18 April 2020].
+
+Gimp.org (2020) GIMP - GNU Image Manipulation Program. The GIMP Team.
+Available from https://www.gimp.org/ [accessed 18 April 2020].
+
+Kautz, S.M. (2014) PGM files. Iowa: Iowa State University. Available from
+http://web.cs.iastate.edu/~smkautz/cs227f11/examples/week11/pgm_files.pdf
+[accessed 18 April 2020].

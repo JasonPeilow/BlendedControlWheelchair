@@ -1,0 +1,56 @@
+__________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________
+
+There are several models inside the simulation that have been imported from an online database
+called 3D Warehouse (Trimble Inc, 2020). These models include elements in each of the four rooms
+of the house, being:
+
+1. Living Room:
+    1a. Chair   (Michael. V, 2017)
+
+2. Kitchen:
+    2a. Counter (Andrii. B, 2019)
+
+3. Bedroom:
+    3a. Bed     (simon dehuit, 2014)
+
+4. Bathroom
+    4a. Sink    (jared, 2014)
+    4b. Toilet  (Neal Vincent D., 2019)
+    4c. Shower  (Merve nur G., 2017)
+
+Other models include the arrows (green and red_mini). However, these are models that previously
+existed in the Gazebo 9.13 package and required minor manipulation. Usually, the arrows are
+inconsistent in size and change with each Gazebo launch. Creating new base models for each arrow
+type solved this issue.
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+Trimble Inc (2020) Sunnyvale: 3D Warehouse. Available from
+https://3dwarehouse.sketchup.com/ [accessed 18 April 2020].
+
+Michael. V (2017) JMT - Favara I. Sunnyvale: 3D Warehouse. Available from
+https://3dwarehouse.sketchup.com/model/0bc1caf3-67cc-4c4f-8ae2-198b41961592/JMT-Favara-I
+[accessed 18 April 2020].
+
+Andrii. B (2019) #Kitchen. Sunnyvale: 3D Warehouse. Available from
+https://3dwarehouse.sketchup.com/model/06b3e357-4aee-4377-999c-3b440bdd9ef4/Kitchen?login=true#
+[accessed 18 April 2020].
+
+simon dehuit (2014) bed. Sunnyvale: 3D Warehouse. Available from
+https://3dwarehouse.sketchup.com/model/1cc3f689a487c34cbc42362a0cbb1c71/bed
+[accessed 18 April 2020].
+
+jared (2014) bathroom sinik. Sunnyvale: 3D Warehouse. Available from
+https://3dwarehouse.sketchup.com/model/94965774e1baa607f37523ba14f76d91/bathroom-sinik
+[accessed 18 April 2020].
+
+Neal Vincent D. (2019) toilets. Sunnyvale: 3D Warehouse. Available from
+https://3dwarehouse.sketchup.com/model/0362d853-a01b-4587-b374-02d14131ece9/toilets
+[accessed 18 April 2020].
+
+Merve nur G. (2017) shower. Sunnyvale: 3D Warehouse. Available from
+https://3dwarehouse.sketchup.com/model/0b4b2fdc-d5da-4b06-bd88-16f8f2bc5727/shower
+[accessed 18 April 2020].

@@ -1,0 +1,50 @@
+__________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________
+
+Unlike the models created using URDF (my_wheelchair), the worlds in Gazebo are created using SDF.
+When urdf models are imported or spawned into Gazebo, they do become SDFormat, so this is the
+accepted model convention in Gazebo. Knowing this, it is import to learn how to work with
+the simulator in terms of:
+
+1. Building (Poubel, 2017) and Editing (Silliman, 2015) a world
+2. Making an SDF model (MaryaB, 2020) and understanding the specification (osrf, 2014)
+3. Applying textures and Materials (GabrielTorre, 2019)
+4. Importing (Peters, 2017) and attaching (Chen, 2016) customised SDF models and meshes
+   (3D Warehouse, 2020)
+5. Implementing collision values and other physics (MartijnBuijs, 2018)
+
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+Poubel, L. (2017) Building a world. Gazebosim.org: Open Robotics. Available from
+http://gazebosim.org/tutorials?tut=build_world&cat=build_world [accessed 18 April 2020].
+
+Silliman, M. (2015) Editing the Simulated World. Oregon: Learn TurtleBot and ROS.
+Available from https://learn.turtlebot.com/2015/02/03/6/ [accessed 18 April 2020].
+
+MaryaB (2020) Make a model. Gazebosim.org: Open Robotics. Available from
+http://gazebosim.org/tutorials?tut=build_model [accessed 18 April 2020].
+
+GabrielTorre (2019) List of Materials. ROS.org: Open Robotics. Available from
+http://wiki.ros.org/simulator_gazebo/Tutorials/ListOfMaterials [accessed 18 April 2020].
+
+osrf (2014) SDFormat Specification. SDFormat.org: Open Robotics.
+Available from http://sdformat.org/spec [accessed 18 April 2020].
+
+Angel, M. (2018)
+[Gazebo Q&A] 003 – How to spawn an SDF custom model in Gazebo with ROS. Barcelona: The Construct.
+https://www.theconstructsim.com/gazebo-qa-003-spawn-sdf-custom-model-gazebo-ros/
+[accessed 18 April 2020].
+
+Chen, I. (2016) Attach Meshes. Gazebosim.org: Open Robotics. Available from
+http://gazebosim.org/tutorials?tut=attach_meshes [accessed 18 April 2020].
+
+Peters, S. (2017) Import Meshes. Gazebosim.org: Open Robotics. Available from
+http://gazebosim.org/tutorials?tut=import_mesh [accessed 18 April 2020].
+
+MartijnBuijs (2018) Adding Physical and Collision Properties to a URDF Model.
+ROS.org: Open Robotics. Available from
+wiki.ros.org/action/fullsearch/urdf/Tutorials/Adding Physical and Collision Properties to a URDF Model
+[accessed 18 April 2020].

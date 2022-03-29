@@ -1,0 +1,65 @@
+rosbag record -O A1T1.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T2.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T3.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T4.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T5.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T6.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T7.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T8.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T9.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A1T10.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+
+rosbag record -O A2T1.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T2.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T3.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T4.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T5.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T6.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T7.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T8.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T9.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O A2T10.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+
+rosbag record -O B1T1.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T2.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T3.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T4.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T5.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T6.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T7.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T8.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T9.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B1T10.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+
+rosbag record -O B2T1.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T2.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T3.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T4.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T5.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T6.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T7.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T8.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T9.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O B2T10.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+
+rosbag record -O C1T1.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T2.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T3.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T4.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T5.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T6.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T7.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T8.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T9.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C1T10.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+
+rosbag record -O C2T1.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T2.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T3.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T4.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T5.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T6.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T7.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T8.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T9.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active
+rosbag record -O C2T10.bag joystick_cmd_vel move_base_cmd_vel cmd_vel base_controller/command move_base/status scan arbitrator/active

@@ -1,0 +1,82 @@
+__________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________
+
+The navigation stack and core parameters can be commented, but due to the sensitivity of the
+formatting of those files, it seems appropriate to note the references in this seperate text file.
+
+__________________________________________________________________________________________________
+catkin_ws/src/cmp3060m_1920_project/navi_params
+__________________________________________________________________________________________________
+
+[A: base_local_planner_params]
+
+(NicolasVaras, 2019)
+
+
+[B: costmap_common_params]
+
+(NickLamprianidis, 2018)
+
+
+[C: dwa_planner_params]
+
+(AchmadFathoni, 2018)
+
+
+[D: global_costmap_params]
+
+(NickLamprianidis, 2018)
+
+
+[E: global_planner_params]
+
+(EwingKang, 2019)
+
+
+[F: local_costmap_params]
+
+(NickLamprianidis, 2018)
+
+
+[G: local_costmap]
+
+(NickLamprianidis, 2018)
+
+
+[H: move_base_params]
+
+(NicolasVaras, 2018)
+
+
+[I: safe_teleop_stage_params]
+
+(YukiFuruta, 2019)
+
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+NicolasVaras (2019) base_local_planner. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/base_local_planner [accessed 18 April 2020].
+
+AchmadFathoni (2018) dwa_local_planner. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/dwa_local_planner [accessed 18 April 2020].
+
+ChristophRoesmann (2020) nav_core. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/nav_core [accessed 18 April 2020].
+
+NickLamprianidis (2018) costmap_2d. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/costmap_2d [accessed 18 April 2020].
+
+EwingKang (2019) global_planner. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/global_planner [accessed 18 April 2020].
+
+NicolasVaras (2018) move_base. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/move_base [accessed 18 April 2020].
+
+YukiFuruta (2019) safe_teleop_base. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/safe_teleop_base [accessed 18 April 2020].
+
+k-okada (2019) shared_autonomy_manipulation. Github: SharedAutonomyToolkit. Available from
+https://github.com/SharedAutonomyToolkit/shared_autonomy_manipulation [accessed 18 April 2020].

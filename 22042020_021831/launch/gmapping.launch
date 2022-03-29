@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!--
+__________________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________________
+
+This script will allow for the teleoperation of the PWC and room selection within the household. It is
+possible to do this by using an Xbox 360 controller and the joy package. This control system uses, purely,
+teleoperation. It does not contain any method for room selection.
+
+-->
+
+<launch>
+    <arg name="scan_topic" default="/scan" />
+
+<!-- Defining parameters for slam_gmapping node -->
+
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <param name="base_frame" value="base_link"/>
+    <param name="odom_frame" value="odom"/>
+    <param name="map_update_interval" value="5.0"/>
+    <param name="maxUrange" value="6.0"/>
+    <param name="maxRange" value="8.0"/>
+    <param name="sigma" value="0.05"/>
+    <param name="kernelSize" value="1"/>
+    <param name="lstep" value="0.05"/>
+    <param name="astep" value="0.05"/>
+    <param name="iterations" value="5"/>
+    <param name="lsigma" value="0.075"/>
+    <param name="ogain" value="3.0"/>
+    <param name="lskip" value="0"/>
+    <param name="minimumScore" value="100"/>
+    <param name="srr" value="0.01"/>
+    <param name="srt" value="0.02"/>
+    <param name="str" value="0.01"/>
+    <param name="stt" value="0.02"/>
+    <param name="linearUpdate" value="0.5"/>
+    <param name="angularUpdate" value="0.436"/>
+    <param name="temporalUpdate" value="-1.0"/>
+    <param name="resampleThreshold" value="0.5"/>
+    <param name="particles" value="80"/>
+
+    <param name="xmin" value="-1.0"/>
+    <param name="ymin" value="-1.0"/>
+    <param name="xmax" value="1.0"/>
+    <param name="ymax" value="1.0"/>
+
+    <param name="delta" value="0.05"/>
+    <param name="llsamplerange" value="0.01"/>
+    <param name="llsamplestep" value="0.01"/>
+    <param name="lasamplerange" value="0.005"/>
+    <param name="lasamplestep" value="0.005"/>
+    <remap from="scan" to="$(arg scan_topic)"/>
+    </node>
+
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find cmp3060m_1920_project)/config/rviz/gmapping.rviz"/>
+    <!-- Defining parameters for move_base node
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+    <rosparam file="$(find cmp3060m_1920_project)/config/navi_params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find cmp3060m_1920_project)/config/navi_params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find cmp3060m_1920_project)/config/navi_params/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find cmp3060m_1920_project)/config/navi_params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find cmp3060m_1920_project)/config/navi_params/base_local_planner_params.yaml" command="load" />
+
+    </node>
+    -->
+</launch>
+
+
+<!--
+__________________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________________
+
+ROS.org (2019) joy - ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/joy [accessed 9 February 2020].
+
+Fairchild, C. and Harman, T.L. (2017) Ros Robotics By Example, 2nd Edition.
+Birmingham, UK: Packt Publishing Ltd.
+
+Packt Publishing (2017) Turtlesim_joy_code. PacktPublishing. Available from
+https://github.com/PacktPublishing/ROS-Robotics-By-Example-Second-Edition/tree/master/Chapter08/
+Turtlesim_joy_code [accessed 9 February 2020].
+
+The Construct (2017) [ROS Q&A] 031 – How to read LaserScan data (ROS python). Alberto Ezquerro.
+Available from http://www.theconstructsim.com/read-laserscan-data/ [accessed 9 February 2020].
+
+RISC Labs (2018) ROS Basics. Mohamed Abdelkader. Available from
+https://risc.readthedocs.io/1-ros-basics.html [accessed 9 February 2020].
+
+risckaust (2018) ros-basics. Kuat Telegenov. Available from
+https://github.com/risckaust/risc-documentations/blob/master/src/ros-basics/mini_project.py
+[accessed 9 February 2020].
+
+-->
