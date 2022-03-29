@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<!--
+__________________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________________
+
+[A: localisation.launch]
+First, this launch will include the xml formatted file 'localisation.launch'. This will set coordinates
+as per the origin of the robot when spawned into the world file using AMCL. Also, the map will be imported
+from the map_server and will be referenced in RViz. In addition to completing these tasks, within
+locationsation.launch, there is another launch file included for the parameters that related to the
+navigation core. These being:the global and local costamps or planners and other paramters.
+
+From study_d launch, the order would be:
+locationation.launch -> amcl.launch -> move_base.launch
+
+[B: static_study.world]
+It is important to note that study_d, is completed within the static_study.world, which is included
+below. This is accompanied by a variety of arg/arguements as to how Gazebo will be configured
+upon start-up. As this test is restricted to the household, it does not make a difference if the
+environment is dynamic or static, superficially. However, the static environment requires less
+processing power to execute as there are no actors of moving items.
+
+[C: spawn robot]
+The parameter robot description allows a specific name/variable to be detected and spawn the robot.
+The 'robot' in question is the powered wheelchair model my_wheelchair.urdf (found in pwc_models).
+The robot description parameter is referenced by the 'spawn_my_wheelchair' node, which takes a
+range of arguements and launches the model 50cm above the ground level (z: 0.0) of the simaulted
+world. This is due to the other surfaces, such as grass, wood or concrete, that add extra depth.
+
+[D: robot and joint state_publishers]
+The robot_state_publisher is initialised to set a consistent frequency of 50hz for msgs to be published
+that communicate the robots activity in the the suimulated environment. joint_state_publisher works in
+a simuilar way, but it is more focused towards 'moving parts' of the model and keeping track of their
+postion within the world, to better help track the position of the robot in relation to the world.
+
+[E: joy node]
+In this instance, the joy noce is not being used to enable teleoperation. Instead, the button
+commands fron the xbox 360 controller allow for room selection. I.E Y = Living Room, X = Kitchen etc.
+
+[F: room select node]
+This script will allow for the teleoperation of the PWC and room selection within the household. It is
+possible to do this by using an Xbox 360 controller and the joy package. This control system uses, purely,
+teleoperation. It does not contain any method for room selection.
+
+[G: base to laser transform]
+Finally, there is the tf/trnaforms are published between the lidar_link and the base_link. This informs
+the robot as to its precise location within the environment using laser matching. Meaning, the laser
+will scan surrounding scenery/landmarks and compare what is known about the environment with what is
+being interpretted by the laser.
+
+-->
+
+<launch>
+
+	<!--[A: localisation.launch]-->
+	<include file="$(find cmp3060m_1920_project)/launch/localisation.launch"/>
+
+	<!--[B: static_study.world]-->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name"
+		value="$(find cmp3060m_1920_project)/simulation/static_study.world"/>
+	    <arg name="paused" value="false"/>
+    	<arg name="use_sim_time" value="true"/>
+    	<arg name="gui" value="true"/>
+    	<arg name="recording" value="false"/>
+		<arg name="debug" value="false"/>
+	</include>
+
+	<!--[C: spawn robot]-->
+	<param name="robot_description"
+	textfile="$(find cmp3060m_1920_project)/pwc_model/my_wheelchair.urdf"/>
+	<node name="spawn_my_wheelchair" pkg="gazebo_ros" type="spawn_model"
+	output="screen" args="-urdf -param robot_description -model my_wheelchair -z 0.5"/>
+
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+		<param name="publish_frequency" value="50"/>
+	</node>
+
+	<!--[D: robot and joint state_publishers]-->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+		<param name="use_gui" value="false"/>
+		<param name="publish_default_positions" value="true"/>
+		<param name="publish_default_velocities" value="true"/>
+		<param name="publish_default_efforts" value="true"/>
+	</node>
+
+	<!--[E: joy node]-->
+	<node name="joy" pkg="joy" type="joy_node"/>
+
+	<!--[F: room select node]-->
+	<node name="room_select_node" pkg="cmp3060m_1920_project"
+	type="room_select.py" output="screen"/>
+
+	<!--[G: base to laser transform]-->
+	<node pkg="tf" type="static_transform_publisher"
+	name="static_tf_node" args="0 0 0.2 0 0 0 base_link lidar_link 100" />
+
+</launch>
+
+<!--
+__________________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________________
+
+ROS.org (2019) joy - ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/joy [accessed 9 February 2020].
+
+Fairchild, C. and Harman, T.L. (2017) Ros Robotics By Example, 2nd Edition.
+Birmingham, UK: Packt Publishing Ltd.
+
+Packt Publishing (2017) Turtlesim_joy_code. PacktPublishing. Available from
+https://github.com/PacktPublishing/ROS-Robotics-By-Example-Second-Edition/tree/master/Chapter08/
+Turtlesim_joy_code [accessed 9 February 2020].
+
+The Construct (2017) [ROS Q&A] 031 - How to read LaserScan data (ROS python). Alberto Ezquerro.
+Available from http://www.theconstructsim.com/read-laserscan-data/ [accessed 9 February 2020].
+
+RISC Labs (2018) ROS Basics. Mohamed Abdelkader. Available from
+https://risc.readthedocs.io/1-ros-basics.html [accessed 9 February 2020].
+
+risckaust (2018) ros-basics. Kuat Telegenov. Available from
+https://github.com/risckaust/risc-documentations/blob/master/src/ros-basics/mini_project.py
+[accessed 9 February 2020].
+
+-->

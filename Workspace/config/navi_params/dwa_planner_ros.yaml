@@ -1,0 +1,44 @@
+DWAPlannerROS:
+  global_frame_id: map
+  holonomic_robot: false
+
+# 2.2.1 Robot Configuration Parameters
+  acc_lim_x: 5.0    # 2.5
+  acc_lim_y: 0   # 2.5
+  acc_lim_th: 5.0  # 3.2 also, 'th' or 'theta'?
+  max_vel_trans: 0.8 # do not set to zero
+  min_vel_trans: 0.05
+  max_vel_x: 0.5
+  min_vel_x: 0.2
+  max_vel_y: 0
+  min_vel_y: 0
+  max_vel_theta: 0.8 # careful of putting past 0.5
+  min_vel_theta: 0.5
+
+# 2.2.2 Goal Tolerance Parameters
+  yaw_goal_tolerance: 0.17    # 0.05
+  xy_goal_tolerance: 0.2    # 0.10
+  latch_xy_goal_tolerance: false # robot will not rotate at the goal?
+
+# 2.2.3 Forward Simulation Parameters
+  sim_time: 1.7 # 1.7 is the default
+  sim_granularity: 0.025 # the step size between each point of a given trajectory (in metres)
+  vx_samples: 5
+  #vy_samples: 0 # we do not explore Y.
+  vth_samples: 20
+  controller_frequency: 20 # Measured in Hz. Default is 20.
+
+# 2.2.4. Trajectory Scoring Parameters
+  path_distance_bias: 24.0 # could set to zero as experiment. default: (try: 1.0)
+  goal_distance_bias: 32.0 # same as above. default:  (try: 0.8)
+  occdist_scale: 0.3 # weighting to avoid obstacles. Default is 0.01 (try 0.01)
+  forward_point_distance: 0.325 # default is 0.325
+  stop_time_buffer: 0.2
+  scaling_speed: 0.25
+  max_scaling_factor: 0.2
+  publish_cost_grid: true # default is false.
+  meter_scoring: true
+  penalize_negative_x: false
+
+# 2.2.5 Oscillation Prevention Parameters
+  # oscillation_reset_dist: 0.05 # Does this robot even oscillate?

@@ -1,0 +1,12 @@
+subscribers:
+  - name:        "Teleoperation"
+    topic:       "/joystick_cmd_vel"
+    timeout:     1.0
+    priority:    100
+
+  - name:        "Autonomy"
+    topic:       "/move_base_cmd_vel"
+    timeout:     1.0
+    priority:    0
+
+publisher:       "switch"

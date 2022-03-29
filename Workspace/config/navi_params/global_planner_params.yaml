@@ -1,0 +1,13 @@
+GlobalPlanner:
+  planner_frequency: 10.0
+  planner_patience: 1.0
+
+  default_tolerance: 0.0
+
+  use_dijkstra: false
+
+  lethal_cost: 253 # default: 253
+  neutral_cost: 50 # default: 50
+  cost_factor: 3 #default: 3
+
+  use_grid_path: true # else use gradient descent
