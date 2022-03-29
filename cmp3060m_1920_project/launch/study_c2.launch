@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<!--
+__________________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________________
+
+[A: study_bX_nav_source.launch]
+
+
+[B: static_study.world]
+It is important to note that study_b1, is completed within the static_study.world, which is
+included below. This is accompanied by a variety of arg/arguements as to how Gazebo will be
+configured upon start-up. (Peter Mitrano, 2014)
+
+[C: spawn robot]
+The parameter robot description allows a specific name/variable to be detected and spawn the robot.
+The 'robot' in question is the powered wheelchair model my_wheelchair.urdf (found in pwc_models).
+The robot description parameter is referenced by the 'spawn_my_wheelchair' node, which takes a
+range of arguements and launches the model 50cm above the ground level (z: 0.0) of the simaulted
+world. This is due to the other surfaces, such as grass, wood or concrete, that add extra depth.
+(Peter Mitrano, 2014)
+
+[D: robot and joint state_publishers]
+The robot_state_publisher is initialised to set a consistent frequency of 50hz for msgs to be
+published that communicate the robots activity in the the suimulated environment. The
+joint_state_publisher works in a simuilar way, but it is more focused towards 'moving parts' of
+the model and keeping track of their postion within the world, to better help track the position
+of the robot in relation to the world. (GvdHoorn, 2020), (Martin Pecka, 2020)
+
+[E: teleop/joy node]
+The 'joy node' allows the user to input commands on the xbox 360 controller and use teleoperation
+to move the powered wheelchair. The 'teleop node' runs the 'teleop_pure.py', which has set speed
+parameters and braking systems to allow more detailed levels of user control to be available.
+(GvdHoorn, 2019), (Fairchild and Harman, 2017, 361)
+
+[F: base to laser transform]
+Finally, there is the tf/trnaforms are published between the lidar_link and the base_link. This
+informs the robot as to its precise location within the environment using laser matching. Meaning,
+the laser will scan surrounding scenery/landmarks and compare what is known about the environment
+with what is being interpretted by the laser. (Purdue Univeristy, 2015), (Jasprit S Gill, 2018)
+
+-->
+
+<launch>
+
+	<!--[A: localisation.laucnch]-->
+	<include file="$(find cmp3060m_1920_project)/launch/study_cX_nav_source.launch"/>
+
+	<!--[B: static_study.world]-->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name"
+		value="$(find cmp3060m_1920_project)/simulation/static_study.world"/>
+	    <arg name="paused" value="false"/>
+    	<arg name="use_sim_time" value="true"/>
+    	<arg name="gui" value="true"/>
+    	<arg name="recording" value="false"/>
+		<arg name="debug" value="false"/>
+	</include> <!--(Peter Mitrano, 2014)-->
+
+	<!--[C: spawn robot]-->
+	<param name="robot_description"
+	textfile="$(find cmp3060m_1920_project)/pwc_model/my_wheelchair.urdf"/>
+	<node name="spawn_my_wheelchair" pkg="gazebo_ros" type="spawn_model"
+	output="screen" args="-urdf -param robot_description -model my_wheelchair -z 0.5"/>
+	<!--(Peter Mitrano, 2014)-->
+
+	<!--[D: robot and joint state_publishers]-->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+		<param name="publish_frequency" value="50"/> <!-- default is 50Hz -->
+	</node> <!--(GvdHoorn, 2019)-->
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+		<param name="use_gui" value="false"/>
+		<param name="publish_default_positions" value="true"/>
+		<param name="publish_default_velocities" value="true"/>
+		<param name="publish_default_efforts" value="true"/>
+	</node> <!--(Martin Pecka, 2020)-->
+
+	<!--[E: teleop/joy node]-->
+	<node name="joy" pkg="joy" type="joy_node"/> <!--(GvdHoorn, 2019)-->
+	<node name="teleop_node" pkg="cmp3060m_1920_project" type="teleop_pure.py" output="screen">
+		<param name="axis_deadman" value="0.12"/>
+	</node> <!--(Fairchild and Harman, 2017, 361)-->
+
+	<!--[F: base to laser transform]-->
+	<node pkg="tf" type="static_transform_publisher"
+	name="static_tf_node" args="0 0 0.2 0 0 0 base_link lidar_link 100" />
+	<!--(Purdue Univeristy, 2015), (Jasprit S Gill, 2018)-->
+
+</launch>
+
+<!--
+__________________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________________
+
+Peter Mitrano (2014) Using roslaunch. Gazebosim.org. Open Robotics. Available from
+http://gazebosim.org/tutorials?tut=ros_roslaunch [accessed 15 April 2020].
+
+Martin Pecka (2020) joint_state_publisher. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/joint_state_publisher [accessed 15 April 2020].
+
+GvdHoorn (2020) robot_state_publisher. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/action/fullsearch/robot_state_publisher [accessed 15 April 2020].
+
+GvdHoorn (2020) joy. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/joy [accessed 15 April 2020].
+
+Purdue University (2015) TF (transform) in ROS. West Lafayette. Purdue University. Available from
+https://web.ics.purdue.edu/~rvoyles/Classes/ROSprogramming/Lectures/TF%20(transform)%20in%20ROS.pdf
+[accessed 15 April 2020].
+
+Fairchild, C. and Harman, T.L. (2017) Ros Robotics By Example, 2nd Edition.
+Birmingham, UK: Packt Publishing Ltd.
+
+Jasprit S Gill (2018) Setup and Configuration of the Navigation Stack on a Robot. ROS Wiki.
+Open Robotics. Available from http://wiki.ros.org/navigation/Tutorials/RobotSetup
+[accessed 15 April 2020].
+
+-->

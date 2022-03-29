@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<!--
+__________________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________________
+
+This script will allow for the teleoperation of the PWC and room selection within the household. It is
+possible to do this by using an Xbox 360 controller and the joy package. This control system uses, purely,
+teleoperation. It does not contain any method for room selection.
+
+-->
+
+<launch>
+
+	<node pkg='move_base' type='move_base' respawn='false' name='move_base' output='screen' clear_params='true'>
+
+		<param name='controller_frequency' value='10.0' />
+		<param name='controller_patience' value='15.0' />
+		<param name='planner_frequency' value='10.0' />
+		<param name='planner_patience' value='15.0' />
+
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/costmap_common_params.yaml' command='load' ns='global_costmap' />
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/global_costmap_params.yaml' command='load' />
+
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/costmap_common_params.yaml' command='load' ns='local_costmap' />
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/local_costmap_params.yaml' command='load' />
+
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/costmap_common_params.yaml' command='load' />
+
+		<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/base_local_planner_params.yaml' command='load' />
+
+		<!--<param name='base_global_planner' value='global_planner/GlobalPlanner' />-->
+		<!--<rosparam file='$(find cmp3060m_1920_project)/config/navi_params/global_planner_params.yaml' command='load' />-->
+
+		<remap from="cmd_vel" to="/move_base_cmd_vel"/>
+	</node>
+
+	<include file="$(find cmp3060m_1920_project)/launch/study_cX_nav_source.launch"/>
+
+</launch>
+
+<!--
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+ChristophRoesmann (2020) nav_core. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/nav_core [accessed 15 April 2020].
+
+NicolasVaras (2018) move_base. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/move_base [accessed 15 April 2020].
+
+NicolasVaras (2019) base_local_planner. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/base_local_planner [accessed 15 April 2020].
+
+GvdHoorn (2020) robot_state_publisher. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/action/fullsearch/robot_state_publisher [accessed 15 April 2020].
+
+Purdue University (2015) TF (transform) in ROS. West Lafayette. Purdue University. Available from
+https://web.ics.purdue.edu/~rvoyles/Classes/ROSprogramming/Lectures/TF%20(transform)%20in%20ROS.pdf
+[accessed 15 April 2020].
+
+-->

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<!--
+__________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________
+
+[A: map_server]
+The map will be imported from the map_server and will be referenced in RViz.
+
+[B: amcl.launch]
+First, this launch will include the xml formatted file 'amcl.launch'. This will set coordinates
+as per the origin of the robot when spawned into the world file using AMCL.
+
+[C: safe_teleop_base config]
+First, this launch will include the xml formatted file 'amcl.launch'. This will set coordinates
+as per the origin of the robot when spawned into the world file using AMCL.
+
+[D: cmd_vel_mux nodelet]
+First, this launch will include the xml formatted file 'amcl.launch'. This will set coordinates
+as per the origin of the robot when spawned into the world file using AMCL.
+
+[E: amcl.rviz]
+First, this launch will include the xml formatted file 'amcl.launch'. This will set coordinates
+as per the origin of the robot when spawned into the world file using AMCL.
+
+[F: study_cX_nav_core.launch]
+This launch file then runs the study_bX_nav_core.launch. This is the core of the navigation stack
+and is responsible for running costmap, planning and recovery behaviour parameters. With this
+considered, the launch sequence is:
+
+study_bX_nav_core.launch -> navigation params
+
+-->
+
+<launch>
+
+	<arg name="robot_name" default="my_wheelchair"/>
+	<node pkg="nodelet" type="nodelet" name="$(arg robot_name)_nodelet_manager" args="manager"/>
+
+	<arg name="map_file" default="$(find cmp3060m_1920_project)/maps/user_study.yaml"/>
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+	<include file="$(find cmp3060m_1920_project)/launch/amcl.launch">
+		<arg name="initial_pose_x" value="0"/>
+		<arg name="initial_pose_y" value="0"/>
+		<arg name="initial_pose_a" value="0"/>
+	</include> <!--(EwingKang, 2019)-->
+
+	<!--[E: teleop/joy node]-->
+	<node name="joy" pkg="joy" type="joy_node"/> <!--(GvdHoorn, 2019)-->
+	<node name="teleop_node" pkg="cmp3060m_1920_project" type="blended_teleop.py" output="screen">
+		<param name="axis_deadman" value="0.12"/>
+		<remap from="base_controller/command" to="/joystick_cmd_vel"/>
+	</node> <!--(Fairchild and Harman, 2017, 361)-->
+
+	<node pkg="safe_teleop_base" type="safe_teleop_base" respawn="false" name="safe_teleop_base" output="screen">
+		<remap from="~safe_vel" to="/cmd_vel"/>
+
+		<rosparam file="$(find cmp3060m_1920_project)/config/navi_params/local_costmap.yaml" command="load" />
+		<rosparam file="$(find cmp3060m_1920_project)/config/navi_params/safe_teleop_stage_params.yaml" command="load" />
+	</node> <!--(YukiFuruta, 2019)-->
+
+
+	<node pkg="nodelet" type="nodelet" name="arbitrator"
+			args="load yocs_cmd_vel_mux/CmdVelMuxNodelet $(arg robot_name)_nodelet_manager" clear_params="true" output="screen">
+		<param name="yaml_cfg_file"  value="$(find cmp3060m_1920_project)/config/mux_params/mux_config.yaml"/>
+		<remap from="arbitrator/switch" to="/cmd_vel"/>
+	</node>
+
+	<node name="mux" pkg="topic_tools" type="mux" respawn="true"
+		args="base_controller/command /cmd_vel /safe_teleop_base/safe_vel">
+		<remap from="mux" to="cmd_vel_mux"/>
+	</node> <!--(k-okada, 2019)-->
+
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find cmp3060m_1920_project)/config/rviz/amcl.rviz"/>
+
+</launch>
+
+<!--
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+Combinacijus (2020) map_server. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/map_server [accessed 18 April 2020].
+
+EwingKang (2019) amcl. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/amcl [accessed 15 April 2020].
+
+YukiFuruta (2019) safe_teleop_base. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/safe_teleop_base [accessed 15 April 2020].
+
+k-okada (2019) shared_autonomy_manipulation. Github: SharedAutonomyToolkit. Available from
+https://github.com/SharedAutonomyToolkit/shared_autonomy_manipulation [accessed 15 April 2020].
+
+TimOberhauser (2015) rviz/ UserGuide. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/rviz/UserGuide [accessed 15 April 2020].
+
+ChristophRoesmann (2020) nav_core. ROS Wiki. Open Robotics. Available from
+http://wiki.ros.org/nav_core [accessed 15 April 2020].
+
+-->

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<!--
+__________________________________________________________________________________________________
+Brief Description
+__________________________________________________________________________________________________
+
+[A: map_server]
+The map will be imported from the map_server and will be referenced in RViz.
+(Combinacijus, 2020)
+
+[B: amcl.launch]
+First, this launch will include the xml formatted file 'amcl.launch'. This will set coordinates
+as per the origin of the robot when spawned into the world file using AMCL.
+(EwingKang, 2019)
+
+[C: amcl.rviz]
+First, this launch will include the xml formatted file 'amcl.launch'. This will set coordinates
+as per the origin of the robot when spawned into the world file using AMCL.
+(TimOberhauser, 2015)
+
+[D: study_cX_nav_core.launch]
+This launch file then runs the study_bX_nav_core.launch. This is the core of the navigation stack
+and is responsible for running costmap, planning and recovery behaviour parameters. With this
+considered, the launch sequence is:
+
+study_bX_nav_core.launch -> navigation params
+(ChristophRoesmann, 2020)
+
+-->
+
+<launch>
+
+	<!--(Combinacijus, 2020)-->
+	<arg name="map_file" default="$(find cmp3060m_1920_project)/maps/user_study.yaml"/>
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+	<!--(EwingKang, 2019)-->
+	<include file="$(find cmp3060m_1920_project)/launch/amcl.launch">
+		<arg name="initial_pose_x" value="0"/>
+		<arg name="initial_pose_y" value="0"/>
+		<arg name="initial_pose_a" value="0"/>
+	</include>
+
+	<!--(TimOberhauser, 2015)-->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find cmp3060m_1920_project)/config/rviz/amcl.rviz"/>
+
+	<!--(ChristophRoesmann, 2020)-->
+    <include file="$(find cmp3060m_1920_project)/launch/study_bX_nav_core.launch"/>
+
+</launch>
+
+<!--
+__________________________________________________________________________________________________
+References
+__________________________________________________________________________________________________
+
+Combinacijus (2020) map_server. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/map_server [accessed 18 April 2020].
+
+EwingKang (2019) amcl. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/amcl [accessed 15 April 2020].
+
+TimOberhauser (2015) rviz/ UserGuide. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/rviz/UserGuide [accessed 15 April 2020].
+
+ChristophRoesmann (2020) nav_core. ROS Wiki: Open Robotics. Available from
+http://wiki.ros.org/nav_core [accessed 15 April 2020].
+
+-->
